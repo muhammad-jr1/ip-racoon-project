@@ -3,11 +3,9 @@ const cors = require('cors');
 const { scanNetwork } = require('./scanner');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-    origin: 'http://localhost:5001'
-}));
+app.use(cors()); // Allow all origins for now to fix connection issues
 app.use(express.json());
 
 app.get('/api/scan', async (req, res) => {
