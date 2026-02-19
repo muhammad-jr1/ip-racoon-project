@@ -14,8 +14,13 @@ export default function App() {
     try {
       // Use the environment variable if available, otherwise default to localhost
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      console.log("Attempting to scan using API:", API_URL);
       const response = await fetch(`${API_URL}/api/scan`);
-      if (!response.ok) throw new Error('Scan failed');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Scan failed with status:", response.status, "Message:", errorText);
+        throw new Error(`Scan failed: ${response.status} ${errorText}`);
+      }
       const data = await response.json();
       setDevices(data);
     } catch (err) {
