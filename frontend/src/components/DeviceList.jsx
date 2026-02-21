@@ -45,23 +45,25 @@ const DeviceList = ({ devices, scanning }) => {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className={`cyber-card flex items-center justify-between group hover:bg-green-900/10 transition-colors border-l-4 ${device.type === 'Camera' ? 'border-red-500' : 'border-green-500/30'}`}
+                            className={`cyber-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-2 group hover:bg-green-900/10 transition-colors border-l-4 ${device.type === 'Camera' ? 'border-red-500' : 'border-green-500/30'}`}
                         >
                             <div className="flex items-center gap-4">
-                                <div className={`p-3 rounded-full ${getTypeColor(device.type)}`}>
+                                <div className={`p-3 rounded-full shrink-0 ${getTypeColor(device.type)}`}>
                                     {getIcon(device.type)}
                                 </div>
-                                <div>
-                                    <div className="text-green-300 font-bold tracking-wider">{device.ip}</div>
-                                    <div className="text-xs text-green-600 font-mono flex flex-col">
-                                        <span>{device.mac}</span>
-                                        <span className="text-green-500/70">{device.vendor || "Unknown Vendor"}</span>
+                                <div className="min-w-0">
+                                    <div className="text-green-300 font-bold tracking-wider text-sm sm:text-base">{device.ip}</div>
+                                    <div className="text-[10px] sm:text-xs text-green-600 font-mono flex flex-col items-start truncate">
+                                        <span className="truncate w-full">{device.mac}</span>
+                                        <span className="text-green-500/70 truncate w-full" title={device.vendor || "Unknown Vendor"}>
+                                            {device.vendor || "Unknown Vendor"}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col items-end gap-2">
-                                <div className="flex flex-col items-end gap-1">
+                            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 w-full sm:w-auto mt-2 sm:mt-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-green-900/30">
+                                <div className="flex flex-col items-start sm:items-end gap-1">
                                     <div className="flex items-end gap-0.5" title={`Latency: ${device.latency}ms`}>
                                         {[1, 2, 3, 4].map(bar => {
                                             // Determine active bars based on latency
@@ -85,15 +87,18 @@ const DeviceList = ({ devices, scanning }) => {
                                     </div>
                                     <span className="text-[9px] text-green-600 font-mono">{device.latency !== undefined ? `${device.latency}ms` : '---'}</span>
                                 </div>
-                                <div className="flex gap-1">
-                                    <span className={`text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider ${getTypeColor(device.type)}`}>
-                                        {device.type}
-                                    </span>
-                                </div>
-                                <div className="flex gap-1">
-                                    {device.openPorts.map(p => (
-                                        <span key={p} className="text-[10px] bg-slate-800 text-slate-300 px-1 rounded">:{p}</span>
-                                    ))}
+
+                                <div className="flex flex-col items-end gap-1 shrink-0">
+                                    <div className="flex gap-1">
+                                        <span className={`text-[9px] sm:text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider ${getTypeColor(device.type)}`}>
+                                            {device.type}
+                                        </span>
+                                    </div>
+                                    <div className="flex gap-1 flex-wrap justify-end max-w-[120px]">
+                                        {device.openPorts.map(p => (
+                                            <span key={p} className="text-[9px] sm:text-[10px] bg-slate-800 text-slate-300 px-1 rounded">:{p}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
